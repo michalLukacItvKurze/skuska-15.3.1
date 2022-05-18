@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        
+        body {
+            margin: 0 auto;
+            background-color: black;
+            color: white;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            letter-spacing: 2px;
+            width: 300px;
+        }
+        .analyzator {
+            padding-top: 15px;
+            width: 350px;
+            background-color: rgb(49, 49, 49);
+            text-align: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+        h2 {
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-left: 45px;
+        }
+        #celyText{
+            width: 300px;
+            height: 100px;
+            text-align: center;
+            border-radius: 5px;
+            margin: 10px 0;
+            letter-spacing: 2px;
+            overflow: hidden;
+            
+        }
+        #hladanyText{
+            width: 300px;
+            height: 50px;
+            text-align: center; 
+            border-radius: 5px;
+            margin: 10px 0;
+            letter-spacing: 2px;
+        }
+        #buttonPanel{
+            width: 300px;
+            display: inline-flex;                       
+        }
+
+        button {
+            width: 50%;
+            height: 60px;
+            background-color: rgb(102, 102, 102);
+            border-radius: 5px;
+            color: rgb(255, 255, 255);
+            letter-spacing: 2px; 
+            border: 1px solid rgb(185, 185, 185);         
+        }
+        #btn3 {
+            width: 86%;
+            margin-top: 5px;
+        }
+        #btn3:hover {
+            background-color: rgb(255, 72, 0);
+        }
+       
+        #btn1:hover {
+            background-color: rgb(248, 19, 142);
+            letter-spacing: 2px;
+        }
+        #btn2:hover {
+            background-color: rgb(62, 182, 15);
+            letter-spacing: 2px;
+        }
+        #s1{
+            color: rgb(248, 19, 142);
+        }
+        #s2{
+            color: rgb(62, 182, 15);
+        }
+        #s3{
+            color: rgb(255, 72, 0);
+        }
+        #vysledok {
+            width: 300px;
+            height: 40px;
+            text-align: center; 
+            border-radius: 5px;
+            margin: 10px 0;
+            letter-spacing: 2px;
+        }
+        #vysledokArea {
+            height: 150px; 
+            border-radius: 5px;
+            margin: 15px 0;
+            letter-spacing: 2px;
+            background-color: white;
+            color: rgb(119, 119, 124);
+            border-radius: 5px;
+            padding-top: 5px;
+            
+        }
+        input{
+            width: 300px;
+            border: none;
+        }
+        #btn1,#btn2,#btn3 {
+            text-transform: uppercase;
+        }
+       
+    </style>
+    <title>15.3.1 - zadanie na vypracovanie </title>
+</head>
+<body>
+    <h2>te<span id="s1">x</span>tový anal<span id="s2">y</span><span id="s3">z</span>átor</h2>
+    <div class="analyzator">
+        
+        <input type="text" id="celyText" placeholder="Zadaj cely text"><br>
+        
+        <input type="text" id="hladanyText" placeholder="Hladane slovo"><br>
+   
+        <div id="buttonPanel">
+            <button onclick="btnKontrola(event)" id="btn1">nachádza sa</button><br>
+            <button onclick="btnAnalyzuj()" id="btn2">Analizuj</button><br>
+        </div>
+        <button id="btn3">Zašifrovanie textu</button>
+        <input type="text" id="vysledok" placeholder="result"><br>
+        <div class="vysledokArea" id="vysledokArea"></div>
+    </div>
+    
+   
+    <script>
+
+        let vysledokArea = document.getElementById('vysledokArea');
+
+        function btnKontrola(event){
+            event.preventDefault
+
+            let celyText = document.getElementById('celyText').value;
+            let hladanyText = document.getElementById('hladanyText').value;
+            let vysledok = document.getElementById('vysledok').value;
+            
+            let result = celyText.includes(hladanyText);
+            
+            if(result){
+                vysledok = document.getElementById('vysledok').value = hladanyText + " - sa nachadza  v texte";
+            }
+            else {
+                vysledok = document.getElementById('vysledok').value = hladanyText + " - sa nenachadza  v texte";
+            }
+        }
+
+        function btnAnalyzuj(){
+            
+            /* premenne + vypocet dlzky + odstranenie medzier */
+            let dlzkaCelehoTextu = celyText.value.length;
+            let dlzkaCelehoTextuBezMedzery = celyText.value.trim();
+            let najdlhsieSlovo = longest(celyText.value);
+            let pocetNajdlhsieSlovo = najdlhsieSlovo.length;
+            
+            /*vypocet dlzky celeho textu bez medzery*/
+            dlzkaCelehoTextuBezMedzery = dlzkaCelehoTextuBezMedzery.length;
+
+            /* vymazanie ineru v html */ 
+            vysledokArea.innerHTML =""; 
+
+            /* inner zapisuje vysledky do html */
+            vysledokArea.innerHTML += '<p>' + "dĺžka celého textu : " + dlzkaCelehoTextu + ' '  + '<br>dĺžka textu bez medzer : ' 
+                + dlzkaCelehoTextuBezMedzery +   '<br>najdlhsie slovo : ' + najdlhsieSlovo +  '<br>Pocet pismen najdlhsie slovo : ' 
+                + pocetNajdlhsieSlovo +'</p>';
+
+        }
+
+        function longest(str){
+            // Splitnem string na array
+            str = str.split(" ")
+            // vratim prvu usporiadanu najvacsiu hodnotu 
+            return str.sort((a, b) => b.length - a.length)[0]
+        }
+  
+  
+      
+    </script>
+</body>
+</html>
